@@ -1,6 +1,6 @@
 
 import './App.css';
-import Props from './components/Props';
+import Props from './components/props/Props';
 
 function App() {
   return (
