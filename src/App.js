@@ -1,17 +1,18 @@
-
+import React, { Component, useState } from 'react';
 import './App.css';
-import Props from './components/props/Props';
+import BillForm from './components/BillForm';
+import Invoice from './components/Invoice';
+import Contactform from './components/Contactform';
 
 function App() {
+  const [productData, setProductData] = useState(null); // Initially, productData is null
+
   return (
-    <div >
-      <p>This is React app.</p>
-      <Props name="john doe" age="26">
-          <h1>ABCD</h1>
-          <h2>sdnvjdvn</h2>
-      </Props>
-      <Props name="abds doe" age="21"/>
-      <Props name="john" age="20"/>
+    <div className="app">
+    <contact />
+    <Contactform />
+        <BillForm setProductData={setProductData} />
+       
     </div>
   );
 }
