@@ -6,7 +6,7 @@ import Contactform from './components/Contactform';
 function App() {
   const router=createBrowserRouter([
     {
-      path:'/',
+      path:'*',
       element:<Contactform/>
     },
     {
