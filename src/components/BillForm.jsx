@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './bill.css';
+import { clienturl,billurl } from '../config';
 
-function BillForm({ setProductData}) {
+function BillForm() {
+  const [res,setRes]=useState("");
+  const [clients,setClients]=useState([]);
+
   const [formData, setFormData] = useState({
     productName: '',
     price: 0,
@@ -9,6 +15,10 @@ function BillForm({ setProductData}) {
     sgstRate: 0,
     quantity: 0,
   });
+
+  useEffect(()=>{
+    fetch(clienturl).then((res)=>res.json()).then((data)=>setClients(data)).catch((e)=>alert(e));
+  },[]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,12 +35,22 @@ function BillForm({ setProductData}) {
     return totalPrice + totalTax;
   };
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    setProductData(formData);
-   // handleCreateInvoice();
-    //onsubmit(formData);
+    const client=document.getElementById("Client").value;
+    const data={...formData,"total":calculateTotal(),"client":client};
+
+    console.log(data);
+
+    fetch(billurl, {
+      method: "post",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    },
+    }).then((res) => setRes("success"))
+      .catch((e) => setRes(e));
   };
 
   return (
@@ -38,6 +58,10 @@ function BillForm({ setProductData}) {
     <h1 className='h1234'>Bill Details</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
+          <label htmlFor="Client">Client</label>
+          <select name="Client" id="Client" required>
+            {clients.map((c)=><option value={c._id}>{c.name}</option>)}
+          </select>
           <label htmlFor="productName">Product Name:</label>
           <input
             type="text"
@@ -92,7 +116,10 @@ function BillForm({ setProductData}) {
           <span>{calculateTotal()}</span>
         </div>
         <button type="submit">Generate Invoice</button>
+        <br />
+        {res!==""?res:""}
       </form>
+      <Link to="/">Create Client</Link>
     </div>
   );
 }

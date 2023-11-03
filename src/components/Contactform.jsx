@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
-import './Form.css'; // Import your CSS file
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./Form.css"; // Import your CSS file
+import { clienturl } from "../config";
+
 
 function ResponsiveForm() {
-  const url="http://localhost:5000/client";
   const [formData, setFormData] = useState({
-    name: '',
-    contact: '',
-    address: '',
-    email: '',
+    name: "",
+    contact: "",
+    address: "",
+    email: "",
   });
 
+  const [res,setRes]=useState("");
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -18,34 +21,27 @@ function ResponsiveForm() {
     });
   };
 
-   async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     console.log(formData);
-    const res = await fetch(url, {
-      mode: 'cors',
-  headers: {
-    'Access-Control-Allow-Origin':'*'
-  },
-      method: 'post',
-   body: {
-    "name": formData.name,
-    "address":formData.address,
-    "email":formData.email,
-    "contact":formData.contact,
-   },
-    }).then((res) => alert("success")).catch((e)=>console.log(e));
-  };
+    fetch(clienturl, {
+      method: "post",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    },
+    }).then((res) => setRes("success"))
+      .catch((e) => setRes(e));
+  }
 
-  
   return (
-   
     <div className="form-container">
-     <h1 className='h1234'>Contact us</h1>
+      <h1 className="h1234">Contact us</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name:</label>
           <input
-          className='inpt56'
+            className="inpt56"
             type="text"
             id="name"
             name="name"
@@ -56,7 +52,7 @@ function ResponsiveForm() {
         <div className="form-group">
           <label htmlFor="contact">Contact Number:</label>
           <input
-          className='inpt56'
+            className="inpt56"
             type="tel"
             id="contact"
             name="contact"
@@ -66,8 +62,9 @@ function ResponsiveForm() {
         </div>
         <div className="form-group">
           <label htmlFor="address">Address:</label>
-          <textarea
-          className='inpt57'
+          <input
+          type="text"
+            className="inpt56"
             id="address"
             name="address"
             value={formData.address}
@@ -77,7 +74,7 @@ function ResponsiveForm() {
         <div className="form-group">
           <label htmlFor="email">Email Address:</label>
           <input
-          className='inpt56'
+            className="inpt56"
             type="email"
             id="email"
             name="email"
@@ -85,8 +82,11 @@ function ResponsiveForm() {
             onChange={handleInputChange}
           />
         </div>
-        <button type="submit" >Submit</button>
+        <button type="submit">Submit</button>
+        <br />
+        {res!==""?res:""}
       </form>
+      <Link to="/bill"> Generate Bill</Link>
     </div>
   );
 }

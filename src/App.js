@@ -1,20 +1,24 @@
-import React, { Component, useState } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 import BillForm from './components/BillForm';
-import Invoice from './components/Invoice';
 import Contactform from './components/Contactform';
 
 function App() {
-  const [productData, setProductData] = useState(null); // Initially, productData is null
-
+  const router=createBrowserRouter([
+    {
+      path:'/',
+      element:<Contactform/>
+    },
+    {
+      path:'/bill',
+      element:<BillForm/>
+    }
+  ])
   return (
-    <div className="app">
-    <contact />
-    <Contactform />
-        <BillForm setProductData={setProductData} />
-       
+    <div className="app" >
+      <RouterProvider router={router}/>
     </div>
   );
 }
 
-export default App;
+export default App; 
