@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/team_x_react/static/css/main.ffc72029.css",
+    "main.js": "/team_x_react/static/js/main.43d8b6fa.js",
+    "index.html": "/team_x_react/index.html",
+    "main.ffc72029.css.map": "/team_x_react/static/css/main.ffc72029.css.map",
+    "main.43d8b6fa.js.map": "/team_x_react/static/js/main.43d8b6fa.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ffc72029.css",
+    "static/js/main.43d8b6fa.js"
+  ]
+}
